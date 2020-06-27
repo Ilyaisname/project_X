@@ -5,6 +5,7 @@
   flex-direction: column;
   margin: 0 auto;
   background: #FFFFFF;
+  padding: 0 10px;
   
 }
 
@@ -94,6 +95,13 @@
   font-size: 29px;
   padding-right: 6px;
   /* padding-top: 4px; */
+}
+
+.Process__wrap.container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .Process__counter,
