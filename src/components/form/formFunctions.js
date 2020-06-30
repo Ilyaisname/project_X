@@ -11,11 +11,11 @@ export function createControl(config, validation) {
 }   
 
 export function validate(value, validation = null, type) {
-  console.log(`val: ${value}, validation: ${validation}`)
+ 
   if (!validation) {
     return true
   }
-  console.log(type)
+  
   let isValid = true
 
   if (validation.required) {
@@ -23,7 +23,7 @@ export function validate(value, validation = null, type) {
   }
 
   if (validation.required && type === 'email') {
-    isValid = is.email(value) && isValid
+    isValid = is.email(value) && isValid 
   }
 
   if (validation.required && type === 'password') {

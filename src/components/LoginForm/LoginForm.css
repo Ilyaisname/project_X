@@ -80,7 +80,7 @@
   cursor: auto;
 }
 
-.Form-error {
+/* .Form-error {
   margin-top: 24px;
     display: flex;
     align-items: center;
@@ -91,11 +91,11 @@
     display: none;
 }
 
-.Form-error :nth-child(1) {
+.Form-error:nth-child(1) {
   flex: 1 1 30%;
 }
 
-.Form-error :nth-child(2) {
+.Form-error:nth-child(2) {
   flex: 1 1 70%;
-}
+} */
 

@@ -3,6 +3,8 @@ import './RegistrForm.css'
 import {NavLink} from 'react-router-dom'
 import Input from '../UI/Input/Input'
 import {createControl, validate, validateForm, errorMessageGenerator} from '../form/formFunctions'
+import FormErrorMessage from '../form/FormErrorMessage/FormErrorMessage'
+
 
 function createOptionControl(placeholder, type) {
   return createControl ({
@@ -25,13 +27,21 @@ class RegistrForm extends Component {
 
   state = {
     isFormValid: false,
-    formControls: createFunctionControl()
+    formControls: createFunctionControl(),
+    user: {
+      name: '',
+      secondName: '',
+      email: '',
+      password: ''
+    },
+
+    erorrStatus: false    
   }
 
   changeHandler = (value, controlName) => {
     const formControls = {...this.state.formControls}
     const control = { ...formControls[controlName] }
-    console.log(control.validation)
+    
     control.touched = true
     control.value = value
     control.valid = validate(control.value, control.validation, control.type)
@@ -66,6 +76,49 @@ class RegistrForm extends Component {
     })
   }
 
+  sendUserData = event => {
+    event.preventDefault()
+
+    const {name, surName, mail, password, repeatPassword} = this.state.formControls 
+    
+    console.log(`${name.value}, ${surName.value}, ${mail.value}, ${password.value}, ${repeatPassword.value}`)
+    if (password.value !== repeatPassword.value) {
+      console.log('alarm')
+      this.setState({
+        erorrStatus: !this.state.erorrStatus
+      })
+
+    } else {
+      console.log('its OK')
+
+      const user = this.state.user
+
+      user.name = name.value
+      user.secondName = surName.value
+      user.email = mail.value
+      user.password = password.value
+      // const userData = {
+      //   name: name.value,
+      //   secondName: surName.value,
+      //   email: mail.value,
+      //   pasword: password.value
+      // }
+
+      // user.push(userData)
+
+      this.setState({
+        user,
+        erorrStatus: false,
+        isFormValid: false,
+        formControls: createFunctionControl()
+      })
+      
+    }
+
+    console.log(this.state.user)
+    
+  }
+
 
   render() {
     return(
@@ -77,14 +130,18 @@ class RegistrForm extends Component {
 
           <button 
             className="btn btn_color-yellow sz" 
-            disabled={!this.state.isFormValid}>Применить и войти</button>
+            disabled={!this.state.isFormValid}
+            onClick={this.sendUserData}
+            >Применить и войти</button>
 
         </form>
 
         <div className="rg-Form__href">
           <span className="rg-href__text">Уже зарегистрированны? &ensp;<NavLink to="/"> Вход</NavLink></span>
         </div>
-    
+
+        {this.state.erorrStatus ? <FormErrorMessage /> : null}
+
       </div>
     )
   }

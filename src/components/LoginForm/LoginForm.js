@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import './LoginForm.css'
-import warning from '../../images/warning.png'
+// import warning from '../../images/warning.png'
 import {NavLink} from 'react-router-dom'
 import Input from '../UI/Input/Input'
 import {createControl, validate, validateForm, errorMessageGenerator} from '../form/formFunctions'
@@ -75,10 +75,10 @@ export default class LoginForm extends Component {
           <NavLink to="/Registration" className="Login__reg-href">Зарегистрироваться</NavLink>
         
         </form>
-        <div className="Form-error">
+        {/* <div className="Form-error">
           <span><img src={warning} alt="warning" /></span>
           <span>Сообщение об ошибке</span>
-        </div>
+        </div> */}
       </div>
     )
   }

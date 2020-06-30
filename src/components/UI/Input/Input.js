@@ -2,7 +2,7 @@ import React from 'react'
 import './Input.css'
 
 function isInvalid({valid, touched, shouldValidate}) {
-  console.log(`valid: ${valid} toch: ${touched} should: ${shouldValidate}`)
+
   return !valid && shouldValidate && touched
   
 }
@@ -25,7 +25,7 @@ const Input = (props) => {
           type={inputType}
           id={inputId}
           name={props.name}
-          placeholder={props.placeholder}
+          placeholder={props.placeholder || null} 
           value={props.value}
           onChange={props.onChange}
         />
