@@ -4,7 +4,7 @@
 
 .Input input {
   width: 100%;
-  max-width: 328px;
+  max-width: 435px;
   height: 36px;
   background: #FFFFFF;
   border: 1px solid #D6DCE9;
@@ -22,11 +22,7 @@
 }
 
 .Input.invalid input:focus{
-  border: 1px solid #EE4141;
-  background: #FFFFFF;
-  box-sizing: border-box;
-  border-radius: 4px;
-  outline: auto;
+  color: #EE4141;
 }
 
 .Input input:focus {
@@ -47,3 +43,7 @@
   align-items: center;  
   color: #EE4141;
 }
+
+
+
+

@@ -2,19 +2,22 @@ import React from 'react'
 import './Input.css'
 
 function isInvalid({valid, touched, shouldValidate}) {
+  console.log(`valid: ${valid} toch: ${touched} should: ${shouldValidate}`)
   return !valid && shouldValidate && touched
+  
 }
 
 
 const Input = (props) => {
-  console.log(isInvalid(props))
+  
   const cls = ['Input']
   const inputType = props.type || "text"
   const inputId = Date.now()
 
-  if(isInvalid(props)) {
+  if (isInvalid(props)) {
     cls.push('invalid')
   }
+
   return (
 
       <div className={cls.join(' ')}>

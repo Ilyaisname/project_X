@@ -16,7 +16,7 @@ class Login extends Component {
       <div className="Login">
         <h1 className="Login__header"><img src={logo} alt="header__proceset" /></h1>
         <Switch>
-           <Route path="/Login" exact component={LoginForm} />
+           <Route path="/" exact component={LoginForm} />
            <Route path="/Registration" exact component={RegistrForm} />
          </Switch>
         

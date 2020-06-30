@@ -3,81 +3,45 @@ import './LoginForm.css'
 import warning from '../../images/warning.png'
 import {NavLink} from 'react-router-dom'
 import Input from '../UI/Input/Input'
-import is, { object } from 'is_js'
+import {createControl, validate, validateForm, errorMessageGenerator} from '../form/formFunctions'
+
+
+
+function createOptionControl(placeholder, type) {
+  return createControl ({
+    errorMessage: '',
+    placeholder: placeholder,
+    type: type
+  }, {required: true})
+}
+
+function createFunctionControl() {
+  return {
+    mail: createOptionControl('Электронная почта', 'email'),
+    password: createOptionControl('Пароль', 'password')
+  }
+}
 
 export default class LoginForm extends Component {
   state = {
     isFormValied: false,
-    formControls: {
-      email: {
-        value: '',
-        type: 'email',
-        errorMessage: 'Ошибка введите коректную почту',
-        valid: false,
-        touched: false,
-        placeholder: 'Электронная почта',
-        validation: {
-          reqired: true,
-          email: true
-        }
-      },
-      password: {
-        value: '',
-        type: 'password',
-        errorMessage: 'ошибка не верный пароль',
-        valid: false,
-        touched: false,
-        placeholder: 'Пароль',
-        validation: {
-          reqired: true,
-          minLength: 6
-        }
-      }
-    }
-  }
-
-  validateControl(value, validation) {
-    if(!validation) {
-      return true
-    }
-
-    let isValid = true
-
-    if(validation.reqired) {
-      isValid = value.trim() !== '' && isValid
-    }
-
-    if(validation.email) {
-      isValid = is.email(value) && isValid
-    }
-
-    if(validation.minLength) {
-      isValid = value.length >= validation.minLength && isValid
-    }
-
-    return isValid
+    formControls: createFunctionControl()
   }
 
   onChangeHandler = (event, controllName) => {
-    // console.log(`${controllName}: ${event.target.value}`)
 
     const formControls = {...this.state.formControls}
     const control = { ...formControls[controllName] }
     
     control.value = event.target.value
     control.touched = true
-    control.valid = this.validateControl(control.value, control.validation)
-    
+    control.valid = validate(control.value, control.validation, control.type)
+    control.errorMessage = errorMessageGenerator(control.value, control.type)
+
     formControls[controllName] = control
-
-    let isFormValied = true
-
-    Object.keys(formControls).forEach(name => {
-      isFormValied = formControls[name].valid && isFormValied
-    })
-
+    
     this.setState({
-      formControls, isFormValied
+      formControls, isFormValied: validateForm(formControls)
     })
   }
 

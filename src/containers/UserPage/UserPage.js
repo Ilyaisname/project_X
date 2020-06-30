@@ -4,7 +4,13 @@ import PageMenu from '../../components/PageMenu/PageMenu'
 
 class UserPage extends Component {
   
+  state = {
+
+  }
   
+  renderInputs() {
+    
+  }
   
   render() {
     return(
