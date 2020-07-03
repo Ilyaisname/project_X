@@ -4,6 +4,8 @@ import {NavLink} from 'react-router-dom'
 import Input from '../UI/Input/Input'
 import {createControl, validate, validateForm, errorMessageGenerator} from '../form/formFunctions'
 import FormErrorMessage from '../form/FormErrorMessage/FormErrorMessage'
+import { connect } from 'react-redux'
+import { createNewUserData } from '../../store/actions/createUser'
 
 
 function createOptionControl(placeholder, type) {
@@ -28,13 +30,6 @@ class RegistrForm extends Component {
   state = {
     isFormValid: false,
     formControls: createFunctionControl(),
-    user: {
-      name: '',
-      secondName: '',
-      email: '',
-      password: ''
-    },
-
     erorrStatus: false    
   }
 
@@ -91,23 +86,16 @@ class RegistrForm extends Component {
     } else {
       console.log('its OK')
 
-      const user = this.state.user
+      const newUser = this.props.newUser
 
-      user.name = name.value
-      user.secondName = surName.value
-      user.email = mail.value
-      user.password = password.value
-      // const userData = {
-      //   name: name.value,
-      //   secondName: surName.value,
-      //   email: mail.value,
-      //   pasword: password.value
-      // }
-
-      // user.push(userData)
+      newUser.name = name.value
+      newUser.secondName = surName.value
+      newUser.email = mail.value
+      newUser.password = password.value
+      
+      this.props.createNewUserData(newUser)
 
       this.setState({
-        user,
         erorrStatus: false,
         isFormValid: false,
         formControls: createFunctionControl()
@@ -115,12 +103,13 @@ class RegistrForm extends Component {
       
     }
 
-    console.log(this.state.user)
+    console.log(this.props.newUser)
     
   }
 
 
   render() {
+    console.log(this.props)
     return(
       <div className="rg-Form__container">
         <form className="rg-form">
@@ -146,5 +135,20 @@ class RegistrForm extends Component {
     )
   }
 }
-export default RegistrForm
+
+function mapStateToProps(state) {
+  return {
+    newUser: state.create.newUser
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    createNewUserData: newUser => dispatch(createNewUserData(newUser))
+  }
+}
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegistrForm)
 
