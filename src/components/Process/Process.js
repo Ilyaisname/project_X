@@ -1,6 +1,11 @@
 import React from 'react'
 import './Process.css'
 import '../../css/fontello.css'
+import NumberOfExecutionsIcon from './processIcon/NumberOfExecutionsIcon'
+import AverageLeadTimeIcon from './processIcon/AverageLeadTimeIcon'
+import AverageActionsTimeIcon from './processIcon/AverageActionsTimeIcon'
+import EmployeesInvolvedProcessIcon from './processIcon/EmployeesInvolvedProcessIcon'
+import NumberOfScenariosIcon from './processIcon/NumberOfScenariosIcon'
 
 export default (props) => {
   return(
@@ -16,16 +21,16 @@ export default (props) => {
       <div className="Process__wrap">
        <div className="Process__wrap container">
           <div className="Process__counter">
-            <span className="_icon"><i className="demo-icon icon-svg_counter"></i></span>
+            <span className="_icon"><NumberOfExecutionsIcon /></span>
             <span className="counter__number">{props.numberOfExecutions}</span>
           </div>
           <div className="Process__time coll">
             <div className="time">
-              <span className="_icon"><i className="demo-icon icon-time_time"></i></span>
+              <span className="_icon"><AverageLeadTimeIcon /></span>
               <span className="time__time">{props.averageLeadTime}</span>
             </div> 
             <div className="time">
-              <span className="_icon"><i className="demo-icon icon-sr_time"></i></span>
+              <span className="_icon"><AverageActionsTimeIcon /></span>
               <span className="time__percent">{props.averageActiveTime}</span>
             </div>
           </div>
@@ -33,11 +38,11 @@ export default (props) => {
        <div className="Process__wrap container">
             <div className="Process__persons coll">
               <div className="persons">
-                <span className="_icon"><i className="demo-icon icon-people"></i></span>
+                <span className="_icon"><EmployeesInvolvedProcessIcon /></span>
                 <span className="persons__sum">{props.employeesInvolvedProcess} сотрудников</span>
               </div> 
               <div className="persons">
-                <span className="_icon"><i className="demo-icon icon-scripts"></i></span>
+                <span className="_icon"><NumberOfScenariosIcon /></span>
                 <span className="persons__scripts">{props.numberOfScenarios} сценариев</span>
               </div>
             </div>

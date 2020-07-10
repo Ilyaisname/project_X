@@ -1,32 +1,49 @@
 import React, {Component} from 'react';
 import Layout from '../hoc/Layout/Layout'
+import {Route, Switch, Redirect} from 'react-router-dom'
 import Login from '../containers/Login/Login'
-
 import UserPage from '../containers/UserPage/UserPage'
 import ProcessList from '../containers/ProcessList/ProcessList'
+import { connect } from 'react-redux';
+
 
 
 class App extends Component {
-  state = {
-    isLoginOk: true,
-    isUserActive: false,
-    isMenuClick: false
-  }
+
+ 
 
   render() {
+    let routes = (
+      <Switch>
+        <Route path="/" exact component={Login} />
+        <Route path="/Registration" component={Login} />
+      </Switch>
+    )
+
+    if (this.props.isAuthenticated) {
+      routes = (
+        <Switch>
+            <Route path="/user-page" component={UserPage} />
+            <Route path="/process" component={ProcessList} />
+            <Redirect to="/user-page" />   
+      </Switch>
+      )
+    }
     return (
       <Layout>
-        
-        {this.state.isLoginOk ? <Login /> : null}
-        {this.state.isUserActive ? <UserPage /> : null}
-        {this.state.isMenuClick
-          ? <ProcessList /> 
-          : null
-        }
-        
+
+        {routes}
+
       </Layout>
     )
   }
 }
 
-export default App
+function mapStateToProps(state) {
+  console.log(state)
+  return {
+    isAuthenticated: !!state.userData.token
+  }
+} 
+
+export default connect(mapStateToProps)(App)

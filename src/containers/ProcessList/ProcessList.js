@@ -4,14 +4,18 @@ import PageMenu from '../../components/PageMenu/PageMenu'
 import Process from '../../components/Process/Process'
 import {connect} from 'react-redux'
 import { fetchProcess } from '../../store/actions/actionProcess'
+import { graphql } from 'react-apollo'
+import { processList } from '../../queries/queries'
 
 
 class ProcessList extends Component {
+  state = {
+    isOpen: false
+  }
 
   renderProcess() {
-    console.log(this.props)
-    return Object.keys(this.props.process).map((process) => {
-      const processName = this.props.process[process]
+    return Object.keys(processList).map((process) => {
+      const processName = processList[process]
         return (
           <Process
             key={processName.id}
@@ -28,25 +32,39 @@ class ProcessList extends Component {
         )
     })
   }
+
   
+  menuToogle = () => {
+    this.setState({
+      isOpen: !this.state.isOpen
+    })
+  }
+
+  componentDidMount() {
+   
+  }
 
   render() {
-    console.log(this.props.process)
+    this.props.fetchProcess()
+    console.log(this.props) 
     return(
       <div className="ProcessList__body">
-        <PageMenu />
+          <PageMenu 
+            menuToogle = {this.menuToogle}
+            isOpen = {this.state.isOpen}
+          />
           <div className="ProcessList__container">
             {this.props.loading && this.props.process.length !== 0 ?
               <h3 style = {{textAlign: "center"}}> Загрузка </h3>
               : this.renderProcess()
             }
-            
-            
           </div>
       </div>
     )
   }
 }
+
+const ProcessListQuery = graphql(processList)(ProcessList)
 
 function mapStateToProps(state) {
   return {
@@ -62,4 +80,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProcessList)
+export default connect(mapStateToProps, mapDispatchToProps)(ProcessListQuery)

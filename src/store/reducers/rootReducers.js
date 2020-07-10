@@ -1,8 +1,9 @@
 import {combineReducers} from 'redux'
 import processReducer from './processReducer'
-import createNewUser from './checkInNewUser'
+import userData from './userReducer'
+
 
 export default combineReducers({
   processes: processReducer,
-  create: createNewUser
+  userData: userData
 })

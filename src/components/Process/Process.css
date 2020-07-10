@@ -99,9 +99,9 @@
 
 ._icon {
   color: #535374;
-  font-size: 29px;
-  padding-right: 6px;
-  /* padding-top: 4px; */
+  /* font-size: 29px; */
+  padding-right: 16px;
+  padding-top: 4px;
 }
 
 .Process__wrap.container {

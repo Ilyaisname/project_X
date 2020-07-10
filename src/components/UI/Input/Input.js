@@ -12,7 +12,7 @@ const Input = (props) => {
   
   const cls = ['Input']
   const inputType = props.type || "text"
-  const inputId = Date.now()
+  const inputId = props.inputId || Date.now()
 
   if (isInvalid(props)) {
     cls.push('invalid')

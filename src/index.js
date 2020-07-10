@@ -7,7 +7,23 @@ import {createStore, compose, applyMiddleware} from 'redux'
 import {Provider} from 'react-redux'
 import rootRedusers from './store/reducers/rootReducers'
 import thunk from 'redux-thunk'
-// import { ApolloClient, gql, graphql, ApolloProvider } from 'react-apollo'
+import ApolloClient from 'apollo-boost'
+import { ApolloProvider } from '@apollo/react-hooks'
+
+
+
+const client = new ApolloClient({
+  uri: "http://localhost:4000/api",
+  request: (operation) => {
+    const token = localStorage.getItem('token')
+    operation.setContext({
+      headers: {
+        authorization: token ? `Bearer ${token}` : ''
+      }
+    })
+  }
+})
+
 
 const composeEnhancers =
   typeof window === 'object' &&
@@ -23,11 +39,13 @@ const store = createStore(
   )
 
 const app = (
-  <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>
+  <ApolloProvider client={client}>
+    <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+    </Provider>
+  </ApolloProvider>
 )
 
 

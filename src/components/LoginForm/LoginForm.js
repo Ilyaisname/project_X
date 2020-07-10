@@ -4,7 +4,10 @@ import './LoginForm.css'
 import {NavLink} from 'react-router-dom'
 import Input from '../UI/Input/Input'
 import {createControl, validate, validateForm, errorMessageGenerator} from '../form/formFunctions'
-
+import { connect } from 'react-redux'
+import { graphql } from 'react-apollo'
+import { login } from '../../queries/mutations'
+import { authentication } from '../../store/actions/actionsUser'
 
 
 function createOptionControl(placeholder, type) {
@@ -22,7 +25,7 @@ function createFunctionControl() {
   }
 }
 
-export default class LoginForm extends Component {
+class LoginForm extends Component {
   state = {
     isFormValied: false,
     formControls: createFunctionControl()
@@ -63,14 +66,30 @@ export default class LoginForm extends Component {
       )
     })
   }
+
+  submitHandler = event => {
+    event.preventDefault()
+  }
+
+  loginHandler = () => {
+    const {mail, password} = this.state.formControls
+    this.props.authentication(mail.value, password.value, this.props.mutate)
+
+    this.setState({
+      erorrStatus: false,
+      isFormValid: false,
+      formControls: createFunctionControl()
+    })
+  }
+
   render () {
     return(
       <div className="Form__container">
-        <form className="form">
+        <form className="form" onSubmit={this.submitHandler}>
 
           {this.renderInputs()}
         
-          <button className="btn btn_color-yellow" disabled={!this.state.isFormValied}>Войти в систему</button>
+          <button className="btn btn_color-yellow" onClick={this.loginHandler} disabled={!this.state.isFormValied}>Войти в систему</button>
 
           <NavLink to="/Registration" className="Login__reg-href">Зарегистрироваться</NavLink>
         
@@ -83,3 +102,13 @@ export default class LoginForm extends Component {
     )
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    authentication: (email, password, mutate) => dispatch(authentication(email, password, mutate))
+  }
+}
+
+const LoginFormRequest = graphql(login)(LoginForm)
+
+export default connect(null, mapDispatchToProps)(LoginFormRequest)

@@ -5,7 +5,9 @@ import Input from '../UI/Input/Input'
 import {createControl, validate, validateForm, errorMessageGenerator} from '../form/formFunctions'
 import FormErrorMessage from '../form/FormErrorMessage/FormErrorMessage'
 import { connect } from 'react-redux'
-import { createNewUserData } from '../../store/actions/createUser'
+import { createNewUserData } from '../../store/actions/actionsUser'
+import { graphql } from 'react-apollo'
+import { createdUser } from '../../queries/mutations'
 
 
 function createOptionControl(placeholder, type) {
@@ -71,12 +73,13 @@ class RegistrForm extends Component {
     })
   }
 
-  sendUserData = event => {
+  submitHandler = event => {
     event.preventDefault()
+  }
 
+  sendUserData = () => {
     const {name, surName, mail, password, repeatPassword} = this.state.formControls 
     
-    console.log(`${name.value}, ${surName.value}, ${mail.value}, ${password.value}, ${repeatPassword.value}`)
     if (password.value !== repeatPassword.value) {
       console.log('alarm')
       this.setState({
@@ -86,14 +89,16 @@ class RegistrForm extends Component {
     } else {
       console.log('its OK')
 
-      const newUser = this.props.newUser
+      const newUser = {
+        name: name.value,
+        secondName: surName.value,
+        email: mail.value,
+        password: password.value
+      }
 
-      newUser.name = name.value
-      newUser.secondName = surName.value
-      newUser.email = mail.value
-      newUser.password = password.value
+      console.log(newUser)
       
-      this.props.createNewUserData(newUser)
+      this.props.createNewUserData(newUser, this.props.mutate)
 
       this.setState({
         erorrStatus: false,
@@ -103,16 +108,13 @@ class RegistrForm extends Component {
       
     }
 
-    console.log(this.props.newUser)
-    
   }
 
 
   render() {
-    console.log(this.props)
     return(
       <div className="rg-Form__container">
-        <form className="rg-form">
+        <form className="rg-form" onSubmit={this.submitHandler}>
           <h2 className="Form__header">Регистрация</h2>
           
           {this.renderInputs()}
@@ -126,7 +128,7 @@ class RegistrForm extends Component {
         </form>
 
         <div className="rg-Form__href">
-          <span className="rg-href__text">Уже зарегистрированны? &ensp;<NavLink to="/"> Вход</NavLink></span>
+          <span className="rg-href__text">Уже зарегистрированны? &ensp;<NavLink to="/" exact> Вход</NavLink></span>
         </div>
 
         {this.state.erorrStatus ? <FormErrorMessage /> : null}
@@ -136,19 +138,13 @@ class RegistrForm extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    newUser: state.create.newUser
-  }
-}
+const reqestRegistrForm = graphql(createdUser)(RegistrForm)
 
 function mapDispatchToProps(dispatch) {
   return {
-    createNewUserData: newUser => dispatch(createNewUserData(newUser))
+    createNewUserData: (newUser, mutate) => dispatch(createNewUserData(newUser, mutate))
   }
 }
 
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(RegistrForm)
+export default connect(null, mapDispatchToProps)(reqestRegistrForm)
 
