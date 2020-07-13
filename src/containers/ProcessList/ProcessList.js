@@ -8,14 +8,15 @@ import { graphql } from 'react-apollo'
 import { processList } from '../../queries/queries'
 
 
+
 class ProcessList extends Component {
   state = {
     isOpen: false
   }
 
   renderProcess() {
-    return Object.keys(processList).map((process) => {
-      const processName = processList[process]
+    return Object.keys(this.props.data.processList).map((process) => {
+      const processName = this.props.data.processList[process]
         return (
           <Process
             key={processName.id}
@@ -40,13 +41,11 @@ class ProcessList extends Component {
     })
   }
 
-  componentDidMount() {
-   
+  componentWillMount() {
+    this.props.fetchProcess(this.props)
   }
 
   render() {
-    this.props.fetchProcess()
-    console.log(this.props) 
     return(
       <div className="ProcessList__body">
           <PageMenu 
@@ -54,7 +53,7 @@ class ProcessList extends Component {
             isOpen = {this.state.isOpen}
           />
           <div className="ProcessList__container">
-            {this.props.loading && this.props.process.length !== 0 ?
+            {this.props.data.loading && this.props.data.processList === undefined ?
               <h3 style = {{textAlign: "center"}}> Загрузка </h3>
               : this.renderProcess()
             }
@@ -75,7 +74,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchProcess: () => dispatch(fetchProcess()) 
+    fetchProcess: (param) => dispatch(fetchProcess(param)) 
   }
 }
 

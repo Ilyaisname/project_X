@@ -6,6 +6,7 @@ import AverageLeadTimeIcon from './processIcon/AverageLeadTimeIcon'
 import AverageActionsTimeIcon from './processIcon/AverageActionsTimeIcon'
 import EmployeesInvolvedProcessIcon from './processIcon/EmployeesInvolvedProcessIcon'
 import NumberOfScenariosIcon from './processIcon/NumberOfScenariosIcon'
+import {moment} from 'moment'
 
 export default (props) => {
   return(

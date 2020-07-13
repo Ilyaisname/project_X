@@ -1,39 +1,18 @@
 import { FETCH_PROCESS_LOADING, FETCH_PROCESS_SUCSSES, FETCH_PROCESS_ERROR  } from './actionsType'
+import { processList } from '../../queries/queries'
 
-export function fetchProcess() {
+export function fetchProcess(params) {
   return async dispatch => {
     dispatch(fetchProcessLoading())
     
-    // const processes = data => {
-    //   return new Promise(function (resolve, regect) {
-    //     const processList = data
-
-    //     processList.onLoad = () => resolve(processList)
-    //     processList.onError = () => regect(new Error('Ошибка загрузки данных'))
-    //   })
-    // }
-
-    let processList = ({data: {loading, error, processList}}) => {
-      if (loading) return console.log('loading')
-
-      return new Promise((resolve, reject) => {
-        const processes = processList
-        const errorMessage = error
-
-        processes.ok = () => resolve(processes)
-        processes.er = () => reject(errorMessage)
-      })
-        .then(
-          ok => console.log(result) 
-        )
-    }
-
-    const data = processList
-
-    console.log(data)
-
-
-    dispatch(fetchProcessSucsses(data))
+    const data = params.data 
+    
+     if (data.loading && data.processList === undefined)  {
+          dispatch(fetchProcessLoading())
+      } else {
+          dispatch(fetchProcessSucsses(processList))
+      }
+  
 
     dispatch(fetchProcessError())
   }

@@ -22,7 +22,7 @@ export function authentication(email, password, mutate) {
 export function createNewUserData(newUser, mutate){
   return async dispatch => {
     const userData = newUser
-    const response = await mutate({  variables: {
+    const reqest = await mutate({  variables: {
         firstName: userData.name,
         secondName: userData.secondName,
         email: userData.email,
@@ -30,8 +30,8 @@ export function createNewUserData(newUser, mutate){
         }
     })
       
-    const data = response.data.login
-    console.log(response)
+    const data = reqest.data.login
+    console.log(reqest)
 
     localStorage.setItem('userId', data.user.id)
     localStorage.setItem('token', data.token)

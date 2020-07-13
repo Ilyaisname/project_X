@@ -131,6 +131,7 @@
   align-items: center;
   color: #535374;
   position: relative;
+  padding: 0 1px;
 }
 
 .counter__number::after{
